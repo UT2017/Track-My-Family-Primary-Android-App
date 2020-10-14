@@ -1,11 +1,22 @@
 package com.example.trackmyfamily;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -25,12 +36,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
+import java.util.Random;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     public static final String APP_LOG_TAG = "MainActivity";
     private GoogleMap mMap;
     private HashMap<String , Marker> mMarkerHashMap = new HashMap<>();
+    public static String EXTRA_KEY = "StartedFromMapsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +52,51 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Log.v(APP_LOG_TAG,"in onCreate");
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch(item.getItemId()){
+            case R.id.menuAddChild: onClickAddChild();
+                break;
+            case R.id.menuLogout: onClickLogout();
+                break;
+        }
+        return true;
+    }
+
+    private void onClickLogout() {
+        Log.v(APP_LOG_TAG,"in onClickLogout");
+        FirebaseAuth.getInstance().signOut();
+
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this,googleSignInOptions);
+
+        mGoogleSignInClient.signOut();
+
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        finish();
+    }
+
+    private void onClickAddChild() {
+        Log.v(APP_LOG_TAG,"in onClickChild");
+        Toast.makeText(this, "onClickChild", Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -62,35 +116,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap = googleMap;
         mMap.setMaxZoomPreference(16);
-        loginToFirebase();
+        //loginToFirebase();
+        subscribeToUpdates();
     }
 
-    private void loginToFirebase() {
 
-        Log.v(APP_LOG_TAG,"in loginToFirebase");
 
-        String email = getString(R.string.firebase_email);
-        String pwd = getString(R.string.firebase_password);
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email,pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Log.v(APP_LOG_TAG,"Authentication is successful");
-                    subscribeToUpdates();
-                }else{
-                    Log.v(APP_LOG_TAG,"Authentication failed");
-                }
-            }
-        });
 
-    }
 
     private void subscribeToUpdates() {
 
         Log.v(APP_LOG_TAG,"in subscribeToUpdates");
 
+
         String path = getString(R.string.firebase_path);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(path);
+
 
         Log.v(APP_LOG_TAG,"Data base reference = "+databaseReference);
 
