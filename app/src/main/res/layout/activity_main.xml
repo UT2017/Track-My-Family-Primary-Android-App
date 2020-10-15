@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#18364C">
 
     <TextView
         android:id="@+id/textView"
@@ -11,17 +12,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="196dp"
         android:gravity="center"
-        android:maxLines="2"
-        android:text="Welcome to Track my Family Locator"
-        android:textSize="24sp"
+        android:text="Welcome to Track my Family"
+        android:textSize="48sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@android:color/white"/>
 
     <Button
         android:id="@+id/sign_in_btn"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:layout_marginBottom="196dp"
         android:background="#fff"
         android:drawableStart="@drawable/fui_ic_googleg_color_24dp"

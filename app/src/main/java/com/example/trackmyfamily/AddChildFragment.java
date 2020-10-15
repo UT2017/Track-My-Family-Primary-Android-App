@@ -27,8 +27,6 @@ public class AddChildFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_layout_file,container,false);
 
-        v.setBackgroundColor(Color.WHITE);
-
         Button b = (Button) v.findViewById(R.id.next_button_screen_1);
         b.setOnClickListener(new View.OnClickListener() {
             @Override

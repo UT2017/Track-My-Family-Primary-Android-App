@@ -1,11 +1,8 @@
 package com.example.trackmyfamily;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,16 +24,19 @@ import java.util.Random;
 
 public class AddChildFragmentScreen2 extends Fragment {
 
+    private String uniq_ID;
+    private String child_num_str;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_layout_file_screen_2,container,false);
 
-        v.setBackgroundColor(Color.WHITE);
+
 
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("PreferencesFile",getActivity().MODE_PRIVATE);
-        String uniq_ID = sharedPreferences.getString("uniq_id","");
+        uniq_ID = sharedPreferences.getString("uniq_id","");
 
         if(uniq_ID.isEmpty()){
             uniq_ID = generateRandomID();
@@ -48,7 +46,7 @@ public class AddChildFragmentScreen2 extends Fragment {
         }
 
 
-        TextView textViewEmailId = (TextView) v.findViewById(R.id.input_email_id);
+        TextView textViewEmailId = (TextView) v.findViewById(R.id.input_code);
         textViewEmailId.setText(uniq_ID);
 
 
@@ -77,46 +75,36 @@ public class AddChildFragmentScreen2 extends Fragment {
         }
 
 
-        textViewChild.setText(String.valueOf(child_num));
+        child_num_str = String.valueOf(child_num);
+        textViewChild.setText(child_num_str);
 
 
         Button b2 = (Button) v.findViewById(R.id.next_button_screen_2);
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Next Button screen 2 clicked", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(getActivity(),MapsActivity.class);
-                startActivity(i);
+                validateData();
             }
         });
 
         return v;
     }
 
+    private void validateData() {
 
-    private boolean checkIfChildPresent(final String toCheck){
+        boolean result =  FirebaseUtility.checkHasData(uniq_ID,child_num_str);
 
-        final boolean[] ans = {false};
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        Intent i = new Intent(getActivity(),MapsActivity.class);
 
-        if(databaseReference!=null) {
-            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if(snapshot.hasChild(toCheck)){
-                        ans[0] =  true;
-                    }else{
-                        ans[0] =  false;
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
+        if(result){
+            i.putExtra("SUCCESS_VAL",1);
+            Toast.makeText(getActivity(), "ADDITION OF CHILD FAILED, TRY AGAIN", Toast.LENGTH_LONG).show();
+        }else{
+            i.putExtra("SUCCESS_VAL",0);
+            Toast.makeText(getActivity(), "ADDITION OF CHILD SUCCESSFUL", Toast.LENGTH_LONG).show();
         }
-        return ans[0];
+
+        startActivity(i);
     }
 
 
@@ -126,7 +114,7 @@ public class AddChildFragmentScreen2 extends Fragment {
 
         String generatedID = generateAnId();
 
-        while(checkIfChildPresent(generatedID)){
+        while(FirebaseUtility.checkHasChild(generatedID,"")){
             generatedID = generateAnId();
         }
 

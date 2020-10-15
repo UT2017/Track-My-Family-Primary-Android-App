@@ -2,21 +2,17 @@ package com.example.trackmyfamily;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.Toast;
-import android.widget.Toolbar;
+import android.widget.Button;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -29,9 +25,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -40,7 +33,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
-import java.util.Random;
+
+import static com.example.trackmyfamily.R.id.fragment_container;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -48,6 +42,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private HashMap<String , Marker> mMarkerHashMap = new HashMap<>();
     public static String EXTRA_KEY = "StartedSSSFromMapsActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +52,32 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.v(APP_LOG_TAG,"in onCreate");
 
 
+        SharedPreferences sharedPreferences = getSharedPreferences("PreferencesFile",MODE_PRIVATE);
+        String uniq_ID = sharedPreferences.getString("uniq_id","");
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        Log.v(APP_LOG_TAG,"uniq id = "+uniq_ID);
+
+        if(!uniq_ID.isEmpty() && FirebaseUtility.checkHasChild(uniq_ID,"1")){
+            Log.v(APP_LOG_TAG,"flow 1");
+                View v = findViewById(R.id.empty_view);
+                v.setVisibility(View.GONE);
+                SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                        .findFragmentById(R.id.map);
+                mapFragment.getMapAsync(this);
+        }
+        else{
+            Log.v(APP_LOG_TAG,"flow 2");
+            Button button = (Button) findViewById(R.id.add_first_child_btn);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.v(APP_LOG_TAG,"Add first child button clicked");
+                    onClickAddChild();
+                }
+            });
+        }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -102,12 +118,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void onClickAddChild() {
         Log.v(APP_LOG_TAG,"in onClickChild");
-        Toast.makeText(this, "onClickChild", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "onClickChild", Toast.LENGTH_LONG).show();
 
         AddChildFragment fragment = new AddChildFragment();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.fragment_container , fragment).commit();
+        fragmentManager.beginTransaction().add(fragment_container , fragment).commit();
 
     }
 
@@ -141,7 +157,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.v(APP_LOG_TAG,"in subscribeToUpdates");
 
 
-        String path = getString(R.string.firebase_path);
+        SharedPreferences sharedPreferences = getSharedPreferences("PreferencesFile",MODE_PRIVATE);
+        String uniq_ID = sharedPreferences.getString("uniq_id","");
+
+
+        String path = uniq_ID;
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(path);
 
 

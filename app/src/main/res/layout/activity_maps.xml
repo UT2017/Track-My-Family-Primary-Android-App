@@ -5,7 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/maps_activity_root"
+    >
 
 
     <fragment
@@ -17,15 +19,58 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:context=".MapsActivity" />
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_margin="64dp">
+    <Button
+        android:gravity="center"
+        android:id="@+id/add_first_child_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="69dp"
+        android:background="#18364C"
+        android:drawableStart="@drawable/ic_action_add_user_2"
+        android:drawableLeft="@drawable/ic_action_add_user_2"
+        android:drawablePadding="10dp"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp"
+        android:text="Add first Child"
+        android:textColor="@android:color/white"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:layout_marginBottom="56dp"
+        app:layout_constraintBottom_toBottomOf="@+id/empty_view"
+        app:layout_constraintEnd_toEndOf="@+id/empty_view"
+        app:layout_constraintStart_toStartOf="@+id/empty_view"
+         />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_business_4859127"
+            app:layout_constraintBottom_toBottomOf="@+id/empty_view"
+            app:layout_constraintEnd_toEndOf="@+id/empty_view"
+            app:layout_constraintStart_toStartOf="@+id/empty_view"
+            android:scaleType="centerCrop"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:layout_margin="64dp"
+        tools:layout_editor_absoluteX="64dp"
+        tools:layout_editor_absoluteY="174dp">
 
-        android:id="@+id/fragment_container"
-        >
 
     </FrameLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
