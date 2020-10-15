@@ -6,7 +6,8 @@
         android:id="@+id/menuAddChild"
         android:title="Add Child"
         app:showAsAction="always"
-        android:icon="@drawable/ic_action_add_user"
+        android:icon="@drawable/ic_action_add_user_2"
+        android:iconTint="@android:color/white"
         android:orderInCategory="1"
         />
 
@@ -14,7 +15,8 @@
         android:id="@+id/menuLogout"
         android:title="Logout"
         app:showAsAction="always"
-        android:icon="@drawable/ic_action_logout"
+        android:icon="@drawable/ic_action_logout_2"
+        android:iconTint="@android:color/white"
         android:orderInCategory="2"
         />
 

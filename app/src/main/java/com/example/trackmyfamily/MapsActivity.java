@@ -3,14 +3,18 @@ package com.example.trackmyfamily;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -43,7 +47,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static final String APP_LOG_TAG = "MainActivity";
     private GoogleMap mMap;
     private HashMap<String , Marker> mMarkerHashMap = new HashMap<>();
-    public static String EXTRA_KEY = "StartedFromMapsActivity";
+    public static String EXTRA_KEY = "StartedSSSFromMapsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_maps);
 
         Log.v(APP_LOG_TAG,"in onCreate");
+
+
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -97,6 +103,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void onClickAddChild() {
         Log.v(APP_LOG_TAG,"in onClickChild");
         Toast.makeText(this, "onClickChild", Toast.LENGTH_LONG).show();
+
+        AddChildFragment fragment = new AddChildFragment();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().add(R.id.fragment_container , fragment).commit();
+
     }
 
     /**
@@ -176,7 +188,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Double longitude = Double.parseDouble(value.get("longitude").toString());
         LatLng latLng = new LatLng(lat,longitude);
         if(!mMarkerHashMap.containsKey(key)){
-            Log.v(APP_LOG_TAG,"in setMarker - doesn't contain key");
+            Log.v(APP_LOG_TAG,
+                    "in setMarker - doesn't contain key");
             mMarkerHashMap.put(key,mMap.addMarker(new MarkerOptions().title(key).position(latLng)));
         }else{
             Log.v(APP_LOG_TAG,"in setMarker - already contains key");
