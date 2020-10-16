@@ -3,6 +3,7 @@ package com.example.trackmyfamily;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,13 +33,18 @@ public class AddChildFragmentScreen2 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_layout_file_screen_2,container,false);
 
-
-
+        Log.v(MainActivity.TAG,"in AddChildFragmentScreen2, in onCreateView");
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("PreferencesFile",getActivity().MODE_PRIVATE);
         uniq_ID = sharedPreferences.getString("uniq_id","");
 
+
+        Log.v(MainActivity.TAG,"in AddChildFragmentScreen2, in onCreateView, uniq = "+uniq_ID);
+
         if(uniq_ID.isEmpty()){
+
+            Log.v(MainActivity.TAG,"in AddChildFragmentScreen2, in onCreateView, uniq id is empty");
+
             uniq_ID = generateRandomID();
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("uniq_id",uniq_ID);
@@ -54,22 +60,31 @@ public class AddChildFragmentScreen2 extends Fragment {
         final int[] children_num = {0};
         int child_num = 0;
 
-
-
         String path = uniq_ID;
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(path);
 
+        Log.v(MainActivity.TAG,"in AddChildFragmentScreen2, in onCreateView, data base ref = "+databaseReference);
+
         if(databaseReference!=null) {
+
+
+            Log.v(MainActivity.TAG,"in AddChildFragmentScreen2, in onCreateView, data base ref is not null");
+
+
+
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Log.v(MainActivity.TAG,"in AddChildFragmentScreen2, in onCreateView, onDataChange");
                     children_num[0] = (int) snapshot.getChildrenCount();
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
+                    Log.v(MainActivity.TAG,"in AddChildFragmentScreen2, in onCreateView, in ONcancelled");
 
                 }
+
             });
             child_num = children_num[0] + 1;
         }
@@ -92,16 +107,22 @@ public class AddChildFragmentScreen2 extends Fragment {
 
     private void validateData() {
 
+        Log.v(MainActivity.TAG,"in AddChildFragmentScreen2, in onCreateView, in validate Data");
+
+
         boolean result =  FirebaseUtility.checkHasData(uniq_ID,child_num_str);
 
         Intent i = new Intent(getActivity(),MapsActivity.class);
 
+        Log.v(MainActivity.TAG,"in AddChildFragmentScreen2, in onCreateView, in validate data, result = "+result);
+
+
         if(result){
             i.putExtra("SUCCESS_VAL",1);
-            Toast.makeText(getActivity(), "ADDITION OF CHILD FAILED, TRY AGAIN", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "ADDITION OF CHILD SUCCESSFUL", Toast.LENGTH_LONG).show();
         }else{
             i.putExtra("SUCCESS_VAL",0);
-            Toast.makeText(getActivity(), "ADDITION OF CHILD SUCCESSFUL", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "ADDITION OF CHILD FAILED, TRY AGAIN", Toast.LENGTH_LONG).show();
         }
 
         startActivity(i);
