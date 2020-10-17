@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    >
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,6 +21,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:gravity="center"
+            android:ellipsize="none"
+            android:maxLines="100"
+            android:scrollHorizontally="false"
             android:text="Enter the code as given below in Nino App, Make sure to enter the details as is"
             android:textColor="@android:color/white"
             android:textSize="24sp"
@@ -35,6 +37,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:gravity="center"
+            android:ellipsize="none"
+            android:maxLines="100"
+            android:scrollHorizontally="false"
             android:textColor="@android:color/white"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -50,6 +55,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="104dp"
             android:gravity="center"
+            android:ellipsize="none"
+            android:maxLines="100"
+            android:scrollHorizontally="false"
+
             android:text="Enter Child Number as given below in Nino App, Again Make sure to enter the details as is"
             android:textColor="@android:color/white"
             android:textSize="24sp"
@@ -63,6 +72,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:ellipsize="none"
+            android:maxLines="100"
+            android:scrollHorizontally="false"
+
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="24sp"
@@ -77,6 +90,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
             android:gravity="center"
+            android:ellipsize="none"
+            android:maxLines="100"
+            android:scrollHorizontally="false"
             android:text="After entering the details in secondary app, Click Next to continue"
             android:textColor="@android:color/white"
             android:textSize="24sp"
@@ -120,3 +136,4 @@
 
 
 </ScrollView>
+
