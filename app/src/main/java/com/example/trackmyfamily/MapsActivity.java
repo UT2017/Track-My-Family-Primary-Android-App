@@ -31,6 +31,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -41,7 +42,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static final String APP_LOG_TAG = "MainActivity";
     private GoogleMap mMap;
     private HashMap<String , Marker> mMarkerHashMap = new HashMap<>();
-    public static String EXTRA_KEY = "StartedSSSFromMapsActivity";
+    public static String EXTRA_KEY = "StartedFromMapsActivity";
 
 
     @Override
@@ -49,35 +50,106 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        Log.v(APP_LOG_TAG,"in onCreate");
+        Button button = (Button) findViewById(R.id.add_first_child_btn);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v(APP_LOG_TAG, "Add first child button clicked");
+                onClickAddChild();
+            }
+        });
 
+        Log.v(APP_LOG_TAG, "in onCreate, setting visibility of my empty view = GONE");
+        View v = findViewById(R.id.empty_view);
+        v.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.v(APP_LOG_TAG, "in onResume");
 
         SharedPreferences sharedPreferences = getSharedPreferences("PreferencesFile",MODE_PRIVATE);
         String uniq_ID = sharedPreferences.getString("uniq_id","");
 
+
+        Log.v(APP_LOG_TAG, "in onResume, uniq_id = "+uniq_ID);
+
+
+        if(!uniq_ID.isEmpty()) {
+            Log.v(APP_LOG_TAG, "in onresume, flow 1");
+            checkHasAtleastOneChild(uniq_ID);
+        }else{
+            Log.v(APP_LOG_TAG, "in onresume, flow 2");
+            Log.v(APP_LOG_TAG, "in onresume, flow 2 , setting visibility of my empty view = visible");
+            View v = findViewById(R.id.empty_view);
+            v.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Log.v(APP_LOG_TAG, "in onPause, setting visibility of my empty view = GONE");
+        View v = findViewById(R.id.empty_view);
+        v.setVisibility(View.GONE);
+
+
+    }
+
+    private void checkHasAtleastOneChild(String uniq_ID) {
+
+        Log.v(APP_LOG_TAG, "in onresume, in checkHasAtleastOneChild");
+
         Log.v(APP_LOG_TAG,"uniq id = "+uniq_ID);
 
-        if(!uniq_ID.isEmpty() && FirebaseUtility.checkHasChild(uniq_ID,"1")){
-            Log.v(APP_LOG_TAG,"flow 1");
-                View v = findViewById(R.id.empty_view);
-                v.setVisibility(View.GONE);
-                SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                        .findFragmentById(R.id.map);
-                mapFragment.getMapAsync(this);
-        }
-        else{
-            Log.v(APP_LOG_TAG,"flow 2");
-            Button button = (Button) findViewById(R.id.add_first_child_btn);
-            button.setOnClickListener(new View.OnClickListener() {
+        final boolean []result = {false};
+        String path = uniq_ID;
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(path);
+        Log.v(MainActivity.TAG, "generate Random ID, database Ref = " + databaseReference);
+
+        if (databaseReference != null) {
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onClick(View v) {
-                    Log.v(APP_LOG_TAG,"Add first child button clicked");
-                    onClickAddChild();
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+                    Log.v(MainActivity.TAG, "in generate random id, in check has child, in onDataChanged");
+                    Log.v(MainActivity.TAG, "in generate random id, in check has child, in on data changed, snapshot = " + snapshot);
+
+                    if (snapshot.exists()) {
+
+                        result[0] = true;
+
+                        View v = findViewById(R.id.empty_view);
+                        v.setVisibility(View.GONE);
+
+                        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                                .findFragmentById(R.id.map);
+                        mapFragment.getMapAsync(MapsActivity.this);
+
+                    } else {
+                        result[0] = false;
+
+                        View v = findViewById(R.id.empty_view);
+                        v.setVisibility(View.VISIBLE);
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.v(MainActivity.TAG, "in FireBase Utility, in check has child, in onCancelled");
                 }
             });
         }
-    }
 
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
