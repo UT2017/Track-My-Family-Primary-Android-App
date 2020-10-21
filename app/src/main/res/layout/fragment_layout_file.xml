@@ -7,8 +7,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#18364C"
@@ -18,96 +16,81 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
+        android:layout_height="wrap_content"
         android:background="#18364C"
-        android:padding="8dp">
+       >
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:gravity="center"
-            android:text="Download secondary App Nino on Child's phone"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_marginTop="56dp"
+            android:ellipsize="none"
 
+
+            android:maxLines="100"
+            android:scrollHorizontally="false"
+            android:text="Download secondary App Nino on Child's phone"
             android:textColor="@android:color/white"
             android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
 
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
-            android:gravity="center"
+            android:layout_marginTop="44dp"
+
             android:text="To download, Search Nino app on Play store"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+
+            android:ellipsize="none"
+            android:maxLines="100"
+            android:scrollHorizontally="false"
 
             android:textColor="@android:color/white"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="@+id/textView2"
-
             app:layout_constraintStart_toStartOf="@+id/textView2"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <TextView
             android:id="@+id/textView6"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
-            android:gravity="center"
-            android:text="Note - Make sure Location is always turned on in child's phone"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+
+            android:text="Important note - Make sure Location is always turned on in child's phone"
+
+            android:ellipsize="none"
+            android:maxLines="100"
+            android:scrollHorizontally="false"
 
             android:textColor="@android:color/white"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="@+id/textView3"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/textView3"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="140dp"
-            android:gravity="center"
-            android:text="After downloading the app, Click Next to continue"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-
-
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="@+id/textView3"
-
             app:layout_constraintStart_toStartOf="@+id/textView3"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
         <Button
             android:id="@+id/next_button_screen_1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="168dp"
-            android:text="Next"
+            android:layout_marginLeft="36dp"
+            android:layout_marginTop="44dp"
+            android:layout_marginRight="36dp"
+            android:layout_marginBottom="44dp"
+            android:text="Click Here to continue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.764"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/textView6"
+            android:textAllCaps="false"
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

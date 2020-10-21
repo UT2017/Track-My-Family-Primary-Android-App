@@ -17,16 +17,19 @@
 
         <TextView
             android:id="@+id/textView5"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:gravity="center"
+            android:layout_marginRight="36dp"
+            android:layout_marginLeft="36dp"
             android:ellipsize="none"
+            android:gravity="center"
             android:maxLines="100"
             android:scrollHorizontally="false"
             android:text="Enter the code as given below in Nino App, Make sure to enter the details as is"
             android:textColor="@android:color/white"
             android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,26 +39,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:gravity="center"
             android:ellipsize="none"
+            android:gravity="center"
             android:maxLines="100"
             android:scrollHorizontally="false"
             android:textColor="@android:color/white"
             android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.488"
+            app:layout_constraintEnd_toEndOf="@+id/textView5"
+
             app:layout_constraintStart_toStartOf="@+id/textView5"
             app:layout_constraintTop_toBottomOf="@+id/textView5"
-            tools:text="abcd.efgh@gmail.com" />
+            tools:text="WWWWW" />
 
 
         <TextView
             android:id="@+id/textView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="104dp"
-            android:gravity="center"
+            android:layout_marginTop="68dp"
             android:ellipsize="none"
+            android:gravity="center"
             android:maxLines="100"
             android:scrollHorizontally="false"
 
@@ -63,7 +66,7 @@
             android:textColor="@android:color/white"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="@+id/input_code"
-            app:layout_constraintHorizontal_bias="0.49"
+
             app:layout_constraintStart_toStartOf="@+id/input_code"
             app:layout_constraintTop_toBottomOf="@+id/input_code" />
 
@@ -73,44 +76,49 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:ellipsize="none"
-            android:maxLines="100"
-            android:scrollHorizontally="false"
-
             android:gravity="center"
+            android:maxLines="100"
+
+            android:scrollHorizontally="false"
             android:textColor="@android:color/white"
             android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textView7"
             app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView7"
-            tools:text="1" />
+            tools:text="192" />
 
         <TextView
             android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
-            android:gravity="center"
+            android:layout_marginTop="64dp"
             android:ellipsize="none"
+            android:gravity="center"
             android:maxLines="100"
             android:scrollHorizontally="false"
             android:text="After entering the details in secondary app, Click Next to continue"
             android:textColor="@android:color/white"
+
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/next_button_screen_2"
             app:layout_constraintEnd_toEndOf="parent"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/input_child_number" />
 
         <Button
             android:id="@+id/next_button_screen_2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:layout_marginRight="32dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="64dp"
+
             android:text="Next"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView9"
+            />
 
         <ProgressBar
             android:id="@+id/progressBarCode"
