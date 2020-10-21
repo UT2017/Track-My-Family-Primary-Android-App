@@ -65,6 +65,9 @@ public class AddChildFragmentScreen2 extends Fragment {
         if(uniq_ID.isEmpty()) {
             Log.v(MainActivity.TAG, "in AddChildFragmentScreen2, in onCreateView, uniq id is empty");
             generateRandomID();
+            child_text.setText("1");
+            mProgressBarChild.setVisibility(View.GONE);
+            child_num_str = "1";
             Log.v(MainActivity.TAG, "in after generating random id, generated_id = " + random_id_generated);
         }else{
             code_text.setText(uniq_ID);
@@ -89,7 +92,9 @@ public class AddChildFragmentScreen2 extends Fragment {
                             child_text.setText(child_num_str);
                             mProgressBarChild.setVisibility(View.GONE);
                         } else {
-                            return;
+                            child_num_str = "1";
+                            child_text.setText("1");
+                            mProgressBarChild.setVisibility(View.GONE);
                         }
                     }
 
